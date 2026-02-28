@@ -1,316 +1,227 @@
-🏠 Dorm Monitoring and Visitor Log System
+# 🏠 Dorm Monitoring and Visitor Log System
 
-A Java Desktop-based Dormitory Monitoring System designed to manage visitor check-ins, check-outs, and resident visit tracking efficiently using MySQL as the database backend.
+A Java desktop-based Dormitory Monitoring System designed to efficiently manage visitor check-ins, check-outs, and resident visit tracking using MySQL as the database backend.
 
-📌 Project Overview
+---
 
-The Dorm Monitoring and Visitor Log System is built to replace manual logbooks and provide a secure, organized, and automated solution for dormitory visitor management.
+## 📌 Project Overview
 
-This system allows dorm administrators and operators to:
+The Dorm Monitoring and Visitor Log System replaces manual logbooks with a secure, organized, and automated solution for dormitory visitor management. Built specifically for dormitories without dedicated security guards, it enables staff to monitor visitors seamlessly.
 
-Track visitors entering and leaving the dorm
+**Key features include:**
 
-Monitor active visitors in real-time
+- Tracking visitors entering and leaving the dorm
+- Monitoring active visitors in real-time
+- Recording visitor details and visit purposes
+- Detecting overstaying visitors automatically
+- Maintaining accurate digital records for reporting and oversight
 
-Record visitor information and visit purpose
+---
 
-Detect overstaying visitors automatically
+## 🎯 System Objectives
 
-Maintain accurate digital records for reporting and monitoring
+- Replace manual visitor logbooks
+- Ensure accountability of visitors
+- Improve dormitory monitoring efficiency
+- Provide real-time active visitor tracking
+- Support structured data collection for reports
+- Enhance overall safety and security
 
-This project is designed specifically for dormitories without dedicated security guards, where staff members manage visitor monitoring through an organized system.
+---
 
-🎯 System Objectives
+## 👥 User Roles
 
-Replace manual visitor logbooks
+### 1️⃣ Administrator
+Full access to all features, including:
 
-Ensure accountability of visitors
+- Managing residents and rooms
+- Viewing all visitor logs
+- Monitoring violations
+- Generating reports
+- Configuring system settings
+- Managing user accounts
 
-Improve dormitory monitoring efficiency
+### 2️⃣ Operator
+Handles daily visitor operations:
 
-Provide real-time tracking of active visitors
+- Checking visitors in and out
+- Viewing active visitors
+- Searching residents
+- Registering new visitors
 
-Support structured data collection for reporting
+---
 
-Enhance safety and monitoring processes
+## 🔄 System Workflow
 
-👥 User Roles
-1️⃣ Administrator
+### 🟦 Visitor Check-In Flow
+1. Select Host Resident
+2. Enter Visitor Details:
+   - Full Name
+   - Sex
+   - Relationship to Resident
+   - Purpose of Visit
+   - Contact Number
+3. System records In-Time automatically
+4. Operator clicks **Check-In Visitor**
+5. Visitor appears in **Visitors Inside Now**
 
-Full system access and control.
+### 🟨 Visitor Check-Out Flow
+1. Select active visitor
+2. System calculates visit duration
+3. If overstayed:
+   - Mark as **OVERSTAY**
+4. Record Time-Out and update status
 
-Capabilities:
+---
 
-Manage residents
+## 🗄 Database Structure (Core Tables)
 
-Manage rooms
+| Table            | Description                                              |
+|------------------|----------------------------------------------------------|
+| **users**        | Stores login credentials and user roles                  |
+| **residents**    | Resident information                                    |
+| **visitors**     | Visitor profiles for quick re-entry                     |
+| **visit_logs**   | Records of visits with timestamps, relationships, purposes, and statuses |
+| **operator_actions** | (Optional) Tracks check-in/out accountability   |
 
-View all visitor logs
+---
 
-View violations
+## ⚙️ System Features
 
-Generate reports
+### ✅ Visitor Monitoring
+- Real-time active visitor dashboard
+- Auto-overstay detection
 
-Configure system settings
+### ✅ Data Recording
+- Personal visitor information
+- Relationship and visit purpose
+- Timestamps for check-in/out
 
-Manage user accounts
+### ✅ Automation
+- Automatic In-Time stamping
+- Overstay detection and status updates
 
-2️⃣ Operator
+### ✅ Security
+- Role-based access control
+- Password hashing
+- Controlled data entry
 
-Handles daily visitor check-in and check-out operations.
+---
 
-Capabilities:
+## 🖥 Technology Stack
 
-Check-in visitors
+| Component   | Technology                     |
+|-------------|-------------------------------|
+| **Frontend** | Java Swing / JavaFX          |
+| **Backend**  | Java                         |
+| **Database** | MySQL, JDBC (MySQL Connector/J) |
+| **IDE**      | NetBeans / IntelliJ IDEA     |
 
-Check-out visitors
+---
 
-View active visitors
+## 🎨 UI Design Principles
 
-Search residents
+- Blue and yellow color scheme
+- Clean sidebar navigation
+- Sectioned workflow layout
+- Large, accessible action buttons
+- Clear visual status indicators
 
-Register new visitors
+---
 
-🔄 System Workflow
-🟦 Visitor Check-In Flow
+## 🛠 Installation Guide
 
-Select Host Resident
+### 1️⃣ Requirements
+- JDK 15+
+- MySQL Server
+- MySQL Connector/J
+- Java IDE (NetBeans recommended)
 
-Enter Visitor Information:
-
-Full Name
-
-Sex
-
-Relationship to Resident
-
-Purpose of Visit
-
-Contact Number
-
-System automatically sets In Time
-
-Maximum allowed duration is displayed
-
-Operator clicks Check-In Visitor
-
-Visitor appears in "Visitors Inside Now"
-
-🟨 Visitor Check-Out Flow
-
-Operator selects active visitor
-
-System calculates duration
-
-If duration exceeds allowed time:
-
-Visitor is marked as OVERSTAY
-
-Record is updated with Time-Out
-
-🗄 Database Structure (Operator Side)
-Core Tables
-1. users
-
-Stores system login accounts.
-
-2. residents
-
-Stores dorm resident information.
-
-3. visitors
-
-Stores visitor profiles for quick re-entry.
-
-4. visit_logs
-
-Stores visit transaction records:
-
-time_in
-
-time_out
-
-relationship
-
-purpose
-
-status (ACTIVE, COMPLETED, OVERSTAY)
-
-5. operator_actions (Optional)
-
-Tracks check-in/check-out accountability.
-
-⚙️ System Features
-✅ Visitor Monitoring
-
-Real-time active visitor tracking
-
-"Visitors Inside Now" dashboard
-
-Auto-overstay detection
-
-✅ Data Recording
-
-Visitor personal information
-
-Relationship tracking
-
-Purpose documentation
-
-Timestamp logging
-
-✅ Automation
-
-Automatic In Time
-
-Automatic overstay calculation
-
-Status updates (ACTIVE → OVERSTAY → COMPLETED)
-
-✅ Security
-
-Role-based access control
-
-Hashed passwords
-
-Controlled data entry
-
-🖥 Technology Stack
-Component	Technology
-Frontend	Java (Swing / JavaFX)
-Backend	Java
-Database	MySQL
-JDBC Driver	MySQL Connector/J
-IDE	NetBeans / IntelliJ
-🎨 UI Design Principles
-
-Blue and Yellow color scheme
-
-Clean sidebar navigation
-
-Sectioned workflow layout
-
-Large action buttons for fast operations
-
-Clear visual status indicators
-
-🛠 Installation Guide
-1️⃣ Requirements
-
-JDK 15+
-
-MySQL Server
-
-MySQL Connector/J
-
-Java IDE (NetBeans recommended)
-
-2️⃣ Database Setup
-
-Create database:
-
+### 2️⃣ Database Setup
+```sql
 CREATE DATABASE dorm_system;
-
-Import the provided SQL schema file.
-
-Update database connection in:
-
-DBConnection.java
-
-Example:
-
+```
+- Import the provided SQL schema file.
+- Update connection details in `DBConnection.java`:
+```java
 String url = "jdbc:mysql://localhost:3306/dorm_system";
 String username = "root";
 String password = "yourpassword";
-3️⃣ Run the Application
+```
 
-Open project in IDE
+### 3️⃣ Run the Application
+- Open the project in your IDE
+- Build the project
+- Run `DormSystemOfKyle.java` (Main Class)
 
-Build project
+---
 
-Run DormSystemOfKyle.java (Main Class)
+## 📊 Key System Modules
+- Authentication Module
+- Operator Dashboard
+- Visitor Check-In Page
+- Visitor Check-Out Page
+- Active Visitors Monitoring
+- Resident Management (Admin)
+- Reporting (Admin)
 
-📊 Key System Modules
+---
 
-Authentication Module
+## 🚀 Future Improvements
+- QR code visitor passes
+- Photo capture on check-in
+- SMS notifications to residents
+- Exportable PDF visitor logs
+- Analytics dashboard
 
-Operator Dashboard
+---
 
-Visitor Check-In Page
-
-Visitor Check-Out Page
-
-Active Visitors Monitoring
-
-Resident Management (Admin)
-
-Reporting (Admin)
-
-🚀 Future Improvements
-
-QR code visitor pass
-
-Photo capture on check-in
-
-SMS notification to resident
-
-Exportable PDF visitor logs
-
-Analytics dashboard
-
-📁 Project Structure
-DormSystem
-│
+## 📁 Project Structure
+```
+DormSystem/
 ├── Administrator/
 │   └── Admin_Dashboard.java
-│
 ├── Operator/
 │   └── Operator_Dashboard.java
-│
 ├── DBConnection.java
 ├── Login.java
 ├── Home.java
-🔒 Data Integrity Measures
+```
 
-Foreign key constraints
+---
 
-Controlled status transitions
+## 🔒 Data Integrity Measures
+- Foreign key constraints
+- Controlled status transitions
+- Validation for required fields
+- Time-based validation
+- Automatic overstay updates
 
-Required field validation
+---
 
-Time-based validation logic
+## 📌 Why This System Matters
 
-Overstay auto-update logic
-
-📌 Why This System Matters
-
-Manual visitor logbooks:
-
-Are prone to loss
-
-Hard to search
-
-Hard to analyze
-
-Difficult to monitor in real-time
+Manual logbooks:
+- Are prone to loss
+- Difficult to search and analyze
+- Hard to monitor in real-time
 
 This system provides:
+- Digital tracking
+- Faster operations
+- Improved monitoring
+- Reliable records
 
-Digital tracking
+---
 
-Faster operations
-
-Better monitoring
-
-Reliable record keeping
-
-📄 License
+## 📄 License
 
 This project is developed for academic purposes.
 
-👨‍💻 Developers
+---
 
-Developed as part of a final system.
+## 👨‍💻 Developers
 
-Dorm Monitoring and Visitor Log System
-© 2026
+Developed as part of a final system project.
+
+**Dorm Monitoring and Visitor Log System © 2026**
