@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import dorm.system.of.kyle.Session;
+
 
 /**
  *
@@ -111,51 +113,62 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void login_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_login_btnActionPerformed
-      try { 
-        String name= username.getText();
-        String pass= String.valueOf(password.getPassword());
+    try {                                          
+        String name = username.getText().trim();
+        String pass = String.valueOf(password.getPassword());
         
-        if (name.isEmpty() || pass.isEmpty()){
+        if (name.isEmpty() || pass.isEmpty()) {
             getToolkit().beep();
             JOptionPane.showMessageDialog(this, "Please fill up all the fields");
             return;
         }
+        
         DBConnection dataConn = new DBConnection();
-
-        try (Connection conn = dataConn.getConnection()) {
-            String sql = "SELECT role FROM users WHERE username = ? AND password = ?";
-            try (PreparedStatement pst = conn.prepareStatement(sql)) {
-                pst.setString(1, name);
-                pst.setString(2, pass);
-
-                try (ResultSet rs = pst.executeQuery()) {
-                    if (rs.next()){
-                        String role = rs.getString("role");
-                        getToolkit().beep();
-                        JOptionPane.showMessageDialog(this,"You successfully login as " + role);
-                        this.setVisible(false);
-                        if ("Administrator".equalsIgnoreCase(role)) {
-                            Administrator.Admin_Dashboard adminDash = new Administrator.Admin_Dashboard();
-                            adminDash.setVisible(true);
-                        } else {
-                            Operator.Operator_Dashboard operatorDash = new Operator.Operator_Dashboard();
-                            operatorDash.setVisible(true);
-                        }
+        
+        String sql = "SELECT user_id, username, role FROM users WHERE username = ? AND password = ? LIMIT 1";
+        
+        try (Connection conn = dataConn.getConnection();
+                PreparedStatement pst = conn.prepareStatement(sql)) {
+            
+            pst.setString(1, name);
+            pst.setString(2, pass);
+            
+            try (ResultSet rs = pst.executeQuery()) {
+                
+                if (rs.next()) {
+                    int dbUserId = rs.getInt("user_id");
+                    String dbUsername = rs.getString("username");
+                    String dbRole = rs.getString("role");
+                    
+                    // ✅ Save session values
+                    Session.userId = dbUserId;
+                    Session.username = dbUsername;
+                    Session.role = dbRole;
+                    
+                    getToolkit().beep();
+                    JOptionPane.showMessageDialog(this, "You successfully login as " + dbRole);
+                    
+                    this.setVisible(false);
+                    
+                    if ("Administrator".equalsIgnoreCase(dbRole)) {
+                        Administrator.Admin_Dashboard adminDash = new Administrator.Admin_Dashboard();
+                        adminDash.setVisible(true);
                     } else {
-                        JOptionPane.showMessageDialog(this, "Incorrect username or password", "Error", JOptionPane.ERROR_MESSAGE);
-                    }  
-                    conn.close();
+                        Operator.Operator_Dashboard operatorDash = new Operator.Operator_Dashboard();
+                        operatorDash.setVisible(true);
+                    }
+                    
+                } else {
+                    JOptionPane.showMessageDialog(this, "Incorrect username or password", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        } catch(Exception e){
+            
+        } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Database Error!");   
+            JOptionPane.showMessageDialog(this, "Database Error: " + e.getMessage());
         }
     } catch (SQLException ex) {
-        Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (Exception e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Database Error!"); 
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
     }
     }//GEN-LAST:event_login_btnActionPerformed
 

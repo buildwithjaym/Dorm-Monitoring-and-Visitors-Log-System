@@ -11,6 +11,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.sql.ResultSet;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 /**
  *
  * @author admin
@@ -23,6 +28,7 @@ public class Operator_Dashboard extends javax.swing.JFrame {
     public Operator_Dashboard() {
         initComponents();
         startClock();
+        loadVisitorsInside();
     }
 
     /**
@@ -56,7 +62,7 @@ public class Operator_Dashboard extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        visitorsInsideTable = new javax.swing.JTable();
         search_bar = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
@@ -203,18 +209,26 @@ public class Operator_Dashboard extends javax.swing.JFrame {
         jLabel13.setText("Visitors Inside Now");
         jPanel4.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        visitorsInsideTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Visitor's Name", "Host Resident", "Time In", "Time Out"
+                "ID", "Visitor's Name", "Host Resident", "Time In", "Time Out", "Type", "Sex", "Contact #", "Address", "Created Time"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(visitorsInsideTable);
+        if (visitorsInsideTable.getColumnModel().getColumnCount() > 0) {
+            visitorsInsideTable.getColumnModel().getColumn(9).setResizable(false);
+        }
 
-        jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 770, 90));
+        jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 770, 160));
 
+        search_bar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                search_barActionPerformed(evt);
+            }
+        });
         search_bar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 search_barKeyReleased(evt);
@@ -232,6 +246,11 @@ public class Operator_Dashboard extends javax.swing.JFrame {
         jButton3.setBackground(new java.awt.Color(255, 255, 0));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton3.setText("View All");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 490, 240, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 810, 530));
@@ -295,13 +314,54 @@ public class Operator_Dashboard extends javax.swing.JFrame {
        Check_OUT object = new Check_OUT();
        object.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
-public void search(String str)
+
+    private void search_barActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_barActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_search_barActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    public void loadVisitorsInside() {
+    DefaultTableModel model = (DefaultTableModel) visitorsInsideTable.getModel();
+    model.setRowCount(0); // Clear previous data
+
+    String query = "SELECT v.visitor_id, v.full_name, v.sex, v.contact_no, v.address, l.time_in " +
+                   "FROM visitors v " +
+                   "JOIN visit_logs l ON v.visitor_id = l.visitor_id " +
+                   "WHERE l.time_out IS NULL";
+
+    try (Connection conn = new dorm.system.of.kyle.DBConnection().getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            Object[] row = {
+                rs.getInt("visitor_id"),
+                rs.getString("full_name"),
+                rs.getString("sex"),
+                rs.getString("contact_no"),
+                rs.getString("address"),
+                rs.getTimestamp("time_in")
+            };
+            model.addRow(row);
+        }
+        visitorsInsideTable.revalidate();
+        visitorsInsideTable.repaint();
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Failed to load visitors inside: " + e.getMessage());
+    }
+}
+    
+    public void search(String str)
 {
       
         DefaultTableModel model;
-       model = (DefaultTableModel) jTable1.getModel();
+       model = (DefaultTableModel) visitorsInsideTable.getModel();
        TableRowSorter<DefaultTableModel> trs =  new TableRowSorter<>(model);
-       jTable1.setRowSorter(trs);
+       visitorsInsideTable.setRowSorter(trs);
        trs.setRowFilter(RowFilter.regexFilter(str));
 }
     /**
@@ -364,7 +424,7 @@ public void search(String str)
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField search_bar;
+    private javax.swing.JTable visitorsInsideTable;
     // End of variables declaration//GEN-END:variables
 }
