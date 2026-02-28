@@ -5,19 +5,36 @@
  */
 package Operator;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import DAO.VisitLogDAO;
+import DAO.VisitorDAO;
+import DAO.ResidentDAO;
+import java.sql.DriverManager;
+import java.sql.Timestamp;
 
 /**
  *
  * @author admin
  */
 public class Check_IN extends javax.swing.JFrame {
-
+    private Integer selectedVisitorId = null;
     /**
      * Creates new form Check_IN
      */
     public Check_IN() {
         initComponents();
+        loadResidents();
+        loadVisitors();
+        startClock();
     }
 
     /**
@@ -39,6 +56,46 @@ public class Check_IN extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        residentComboBox = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        pose = new javax.swing.JTextField();
+        num = new javax.swing.JTextField();
+        dress = new javax.swing.JTextField();
+        sexi = new javax.swing.JComboBox<>();
+        nombre = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        rs = new javax.swing.JComboBox<>();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        limit = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        check_in_btn = new javax.swing.JButton();
+        datetime = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        visitor_search = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        visitors_table = new javax.swing.JTable();
+        jLabel26 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -118,7 +175,208 @@ public class Check_IN extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 530));
 
-        setSize(new java.awt.Dimension(1066, 565));
+        jPanel2.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel3.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("Host Resident");
+        jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 0));
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/12.png"))); // NOI18N
+        jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
+
+        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel28.setText("Choose Resident NAme:");
+        jPanel3.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, -1, 40));
+
+        residentComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel3.add(residentComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 260, 30));
+
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 440, 200));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Visitor's");
+        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 0));
+        jLabel10.setText("Check-In");
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, -1, -1));
+
+        jPanel4.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("Visitor Information");
+        jPanel4.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 0));
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/13.png"))); // NOI18N
+        jPanel4.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setText("Full Name: ");
+        jPanel4.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setText("Sex:");
+        jPanel4.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 50, -1, -1));
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setText("Contact #:");
+        jPanel4.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel18.setText("Address:");
+        jPanel4.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, -1, -1));
+
+        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel21.setText("Purpose:");
+        jPanel4.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, -1));
+        jPanel4.add(pose, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 410, 40));
+        jPanel4.add(num, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 150, -1));
+        jPanel4.add(dress, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 90, 130, -1));
+
+        sexi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "MALE", "FEMALE" }));
+        jPanel4.add(sexi, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, 130, -1));
+        jPanel4.add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 150, -1));
+
+        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 50, 440, 200));
+
+        jPanel6.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel22.setText("Visit Details");
+        jPanel6.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(255, 255, 0));
+        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/14.png"))); // NOI18N
+        jPanel6.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
+
+        jLabel24.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel24.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel24.setText("Relationship with the resident:");
+        jPanel6.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
+
+        rs.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Family", "Friend", "Neighbor", "Colleague", "Visitor", "Caregiver", "Service Provider", "Contractor", "Other", " " }));
+        jPanel6.add(rs, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 180, -1));
+
+        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/id.png"))); // NOI18N
+        jPanel6.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, -20, 170, 190));
+
+        jLabel27.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel27.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel27.setText("Max Duration:");
+        jPanel6.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, -1));
+
+        limit.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        limit.setForeground(new java.awt.Color(255, 255, 0));
+        limit.setText("300");
+        jPanel6.add(limit, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, -1, -1));
+
+        jLabel29.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel29.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel29.setText("minutes");
+        jPanel6.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, -1, -1));
+
+        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 440, -1));
+
+        jButton1.setBackground(new java.awt.Color(204, 0, 0));
+        jButton1.setText("Clear Form");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 470, 120, 30));
+
+        check_in_btn.setBackground(new java.awt.Color(255, 255, 0));
+        check_in_btn.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        check_in_btn.setText("Check IN Visitor");
+        check_in_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                check_in_btnActionPerformed(evt);
+            }
+        });
+        jPanel2.add(check_in_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 470, 600, -1));
+
+        datetime.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        datetime.setForeground(new java.awt.Color(255, 255, 255));
+        datetime.setText(" Saturday, February 28, 2026  |  6: 24:45 pm");
+        jPanel2.add(datetime, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 20, 260, 20));
+
+        jPanel5.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/seaqrchh.png"))); // NOI18N
+        jPanel5.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel20.setText("Common Visitors");
+        jPanel5.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        visitor_search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                visitor_searchActionPerformed(evt);
+            }
+        });
+        visitor_search.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                visitor_searchKeyReleased(evt);
+            }
+        });
+        jPanel5.add(visitor_search, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 310, -1));
+
+        visitors_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Name", "Sex", "Contact", "Address"
+            }
+        ));
+        visitors_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                visitors_tableMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(visitors_table);
+
+        jPanel5.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 400, 60));
+
+        jLabel26.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel26.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel26.setText("Search:");
+        jPanel5.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
+
+        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 260, 440, 170));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 930, 530));
+
+        setSize(new java.awt.Dimension(1162, 565));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -155,6 +413,248 @@ public class Check_IN extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jLabel8MouseClicked
 
+    private void visitor_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_visitor_searchKeyReleased
+        String text = visitor_search.getText();
+        visit_search(text);
+    }//GEN-LAST:event_visitor_searchKeyReleased
+
+    private void visitor_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visitor_searchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_visitor_searchActionPerformed
+
+    private void visitors_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visitors_tableMouseClicked
+         int row = visitors_table.getSelectedRow();
+    if (row >= 0) {
+        selectedVisitorId = Integer.parseInt(visitors_table.getValueAt(row, 0).toString());
+
+        nombre.setText(String.valueOf(visitors_table.getValueAt(row, 1)));
+        sexi.setSelectedItem(String.valueOf(visitors_table.getValueAt(row, 2)));
+
+        Object c = visitors_table.getValueAt(row, 3);
+        Object a = visitors_table.getValueAt(row, 4);
+
+        num.setText(c == null ? "" : c.toString());
+        dress.setText(a == null ? "" : a.toString());
+    }
+      
+    }//GEN-LAST:event_visitors_tableMouseClicked
+    private void startClock() {
+    new javax.swing.Timer(1000, e -> {
+        Date now = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM dd, yyyy | h:mm:ss a");
+        datetime.setText(sdf.format(now));
+    }).start();
+}
+    private void check_in_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_check_in_btnActionPerformed
+       try {
+        String residentName = (String) residentComboBox.getSelectedItem();
+        String fullName = nombre.getText().trim();
+        String sex = (String) sexi.getSelectedItem();
+        String contact = num.getText().trim();
+        String address = dress.getText().trim();
+        String purpose = pose.getText().trim();
+        String relationship = (String) rs.getSelectedItem();
+        
+        if (residentName == null || residentName.equals("-- Select Resident --")) {
+    JOptionPane.showMessageDialog(this, "Please select a host resident.");
+    return;
+}
+
+        if (residentName == null || residentName.trim().isEmpty()
+                || fullName.isEmpty()
+                || "Select".equalsIgnoreCase(sex)
+                || purpose.isEmpty()
+                || relationship == null
+                || "Select".equalsIgnoreCase(relationship)) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Please fill in required fields:\n- Host Resident\n- Visitor Full Name\n- Sex\n- Relationship\n- Purpose");
+            return;
+        }
+
+        int residentId = getResidentIdByName(residentName);
+        if (residentId == -1) {
+            JOptionPane.showMessageDialog(this, "Selected resident was not found in the database.");
+            return;
+        }
+
+        int visitorId;
+        VisitorDAO visitorDAO = new VisitorDAO();
+
+        if (selectedVisitorId != null) {
+            visitorId = selectedVisitorId;
+        } else {
+            Integer foundId = visitorDAO.findVisitorId(fullName, contact);
+            if (foundId != null) {
+                visitorId = foundId;
+            } else {
+                String visitorType = "STUDENT";
+                visitorId = visitorDAO.insertVisitor(visitorType, fullName, sex, contact, address);
+            }
+        }
+
+        if (visitorId <= 0) {
+            JOptionPane.showMessageDialog(this, "Visitor could not be resolved/created.");
+            return;
+        }
+
+        int allowedMinutes = Integer.parseInt(limit.getText().trim());
+        int checkedInBy = dorm.system.of.kyle.Session.userId;
+
+        if (checkedInBy <= 0) {
+            JOptionPane.showMessageDialog(this, "Session error: operator not logged in.");
+            return;
+        }
+
+        VisitLogDAO visitLogDAO = new VisitLogDAO();
+        visitLogDAO.insertVisitLog(visitorId, residentId, relationship, purpose, allowedMinutes, checkedInBy, "");
+
+        JOptionPane.showMessageDialog(this, "Check-in successful!");
+
+        selectedVisitorId = null;
+        visitors_table.clearSelection();
+
+        residentComboBox.setSelectedIndex(0);
+        nombre.setText("");
+        sexi.setSelectedIndex(0);
+        num.setText("");
+        dress.setText("");
+        pose.setText("");
+        rs.setSelectedIndex(0);
+
+        loadVisitors();
+
+    } catch (NumberFormatException nfe) {
+        JOptionPane.showMessageDialog(this, "Invalid allowed minutes value.");
+        nfe.printStackTrace();
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error during check-in: " + e.getMessage());
+    }
+    }//GEN-LAST:event_check_in_btnActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+      // Clear all input fields
+    residentComboBox.setSelectedIndex(0); 
+    nombre.setText("");
+    sexi.setSelectedIndex(0); 
+    num.setText("");
+    dress.setText("");
+    pose.setText("");
+    rs.setSelectedIndex(0);
+    }//GEN-LAST:event_jButton1ActionPerformed
+    
+
+    public void checkIn(int visitorId, int residentId, String relationship, String purpose, int checkedInBy, int allowedMinutes) {
+    try {
+        VisitLogDAO dao = new VisitLogDAO();
+        dao.insertVisitLog(visitorId, residentId, relationship, purpose, allowedMinutes, checkedInBy, "");
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Check-in failed: " + e.getMessage());
+    }
+}
+    
+    
+    private int getResidentIdByName(String name) {
+    int id = -1;
+   
+    String sql = "SELECT resident_id FROM residents WHERE full_name = ?";
+    try (Connection conn = new dorm.system.of.kyle.DBConnection().getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, name);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            id = rs.getInt("resident_id");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return id;
+}
+
+// Helper method to get visitor ID by name
+private int getVisitorIdByName(String name) {
+    int id = -1;
+    String sql = "SELECT visitor_id FROM visitors WHERE full_name = ?";
+    try (Connection conn = new dorm.system.of.kyle.DBConnection().getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, name);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            id = rs.getInt("visitor_id");
+        }
+    } catch (SQLException e) {
+    }
+    return id;
+}
+     
+
+    public void loadResidents() {
+    residentComboBox.removeAllItems();
+
+    String sql = "SELECT full_name FROM residents WHERE status='ACTIVE' ORDER BY full_name";
+
+    try (Connection conn = new dorm.system.of.kyle.DBConnection().getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        // Optional: add a placeholder first
+        residentComboBox.addItem("-- Select Resident --");
+
+        while (rs.next()) {
+            residentComboBox.addItem(rs.getString("full_name"));
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error loading residents: " + e.getMessage());
+    }
+}
+
+public void loadVisitors() {
+    DefaultTableModel model = (DefaultTableModel) visitors_table.getModel();
+    model.setRowCount(0); 
+
+    String query = "SELECT visitor_id, full_name, sex, contact_no, address FROM visitors LIMIT 5";
+
+    try (Connection conn = new dorm.system.of.kyle.DBConnection().getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query);
+         ResultSet rs = stmt.executeQuery()) {
+
+        int count = 0;
+        while (rs.next()) {
+            Object[] rowData = {
+                rs.getInt("visitor_id"),
+                rs.getString("full_name"),
+                rs.getString("sex"),
+                rs.getString("contact_no"),
+                rs.getString("address")
+            };
+            model.addRow(rowData);
+            count++;
+        }
+        System.out.println("Fetched " + count + " visitors and added to table");
+      
+        visitors_table.revalidate();
+        visitors_table.repaint();
+
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error loading data: " + ex.getMessage());
+    }
+}
+
+
+public void visit_search(String str)
+{
+      
+        DefaultTableModel model;
+       model = (DefaultTableModel) visitors_table.getModel();
+       TableRowSorter<DefaultTableModel> trs =  new TableRowSorter<>(model);
+       visitors_table.setRowSorter(trs);
+       trs.setRowFilter(RowFilter.regexFilter(str));
+}
     /**
      * @param args the command line arguments
      */
@@ -191,15 +691,55 @@ public class Check_IN extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton check_in_btn;
+    private javax.swing.JLabel datetime;
+    private javax.swing.JTextField dress;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel limit;
+    private javax.swing.JTextField nombre;
+    private javax.swing.JTextField num;
+    private javax.swing.JTextField pose;
+    private javax.swing.JComboBox<String> residentComboBox;
+    private javax.swing.JComboBox<String> rs;
+    private javax.swing.JComboBox<String> sexi;
+    private javax.swing.JTextField visitor_search;
+    private javax.swing.JTable visitors_table;
     // End of variables declaration//GEN-END:variables
 }
