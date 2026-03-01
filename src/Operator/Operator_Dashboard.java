@@ -320,7 +320,9 @@ public class Operator_Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_search_barActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        Active_Visitors object = new Active_Visitors();
+        object.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     public void loadVisitorsInside() {

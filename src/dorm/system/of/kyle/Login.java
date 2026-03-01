@@ -140,7 +140,7 @@ public class Login extends javax.swing.JFrame {
                     String dbUsername = rs.getString("username");
                     String dbRole = rs.getString("role");
                     
-                    // ✅ Save session values
+                    //Save session values
                     Session.userId = dbUserId;
                     Session.username = dbUsername;
                     Session.role = dbRole;
