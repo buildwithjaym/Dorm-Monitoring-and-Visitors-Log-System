@@ -28,7 +28,7 @@ public class Operator_Dashboard extends javax.swing.JFrame {
     public Operator_Dashboard() {
         initComponents();
         startClock();
-        loadVisitorsInside();
+        loadVisitorsInsideNow();
     }
 
     /**
@@ -47,7 +47,6 @@ public class Operator_Dashboard extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
@@ -62,7 +61,7 @@ public class Operator_Dashboard extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        visitorsInsideTable = new javax.swing.JTable();
+        tblActiveVisitors = new javax.swing.JTable();
         search_bar = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
@@ -120,17 +119,6 @@ public class Operator_Dashboard extends javax.swing.JFrame {
         });
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 130, -1));
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/9.png"))); // NOI18N
-        jLabel7.setText("Active Visitors");
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
-            }
-        });
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, -1, -1));
-
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Logout.png"))); // NOI18N
@@ -155,7 +143,7 @@ public class Operator_Dashboard extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Welcome,");
-        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 0));
@@ -165,9 +153,9 @@ public class Operator_Dashboard extends javax.swing.JFrame {
         datetime.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         datetime.setForeground(new java.awt.Color(255, 255, 255));
         datetime.setText(" Saturday, February 28, 2026  |  6: 24:45 pm");
-        jPanel3.add(datetime, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 370, 30));
+        jPanel3.add(datetime, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 10, 300, 30));
 
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 21, 790, 70));
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 21, 900, 50));
 
         jLabel11.setForeground(new java.awt.Color(204, 204, 204));
         jLabel11.setText("Register a New Visitor");
@@ -183,7 +171,7 @@ public class Operator_Dashboard extends javax.swing.JFrame {
                 jButton1MouseClicked(evt);
             }
         });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 380, 130));
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 380, 130));
 
         jLabel12.setForeground(new java.awt.Color(204, 204, 204));
         jLabel12.setText("Record an Exit");
@@ -199,7 +187,7 @@ public class Operator_Dashboard extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, 380, 130));
+        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 110, 380, 130));
 
         jPanel4.setBackground(new java.awt.Color(0, 0, 51));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -209,20 +197,20 @@ public class Operator_Dashboard extends javax.swing.JFrame {
         jLabel13.setText("Visitors Inside Now");
         jPanel4.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
 
-        visitorsInsideTable.setModel(new javax.swing.table.DefaultTableModel(
+        tblActiveVisitors.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Visitor's Name", "Host Resident", "Time In", "Time Out", "Type", "Sex", "Contact #", "Address", "Created Time"
+                "ID", "Visitor's Name", "Host Resident", "Room #", "Time IN", "Time Out", "Sex", "Allowed Time", "Duration", "Status", "Contact#"
             }
         ));
-        jScrollPane1.setViewportView(visitorsInsideTable);
-        if (visitorsInsideTable.getColumnModel().getColumnCount() > 0) {
-            visitorsInsideTable.getColumnModel().getColumn(9).setResizable(false);
+        jScrollPane1.setViewportView(tblActiveVisitors);
+        if (tblActiveVisitors.getColumnModel().getColumnCount() > 0) {
+            tblActiveVisitors.getColumnModel().getColumn(9).setResizable(false);
         }
 
-        jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 770, 160));
+        jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 880, 160));
 
         search_bar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -234,14 +222,14 @@ public class Operator_Dashboard extends javax.swing.JFrame {
                 search_barKeyReleased(evt);
             }
         });
-        jPanel4.add(search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 10, 220, -1));
+        jPanel4.add(search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 10, 220, -1));
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("Search:");
-        jPanel4.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, -1, -1));
+        jPanel4.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 10, -1, -1));
 
-        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 790, 230));
+        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 900, 230));
 
         jButton3.setBackground(new java.awt.Color(255, 255, 0));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -251,11 +239,11 @@ public class Operator_Dashboard extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 490, 240, -1));
+        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 490, 240, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 810, 530));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 930, 530));
 
-        setSize(new java.awt.Dimension(1046, 563));
+        setSize(new java.awt.Dimension(1164, 563));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -315,57 +303,82 @@ public class Operator_Dashboard extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.setVisible(false);
-        Active_Visitors object = new Active_Visitors();
+        Check_OUT object = new Check_OUT();
         object.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        this.setVisible(false);
-        Active_Visitors object = new Active_Visitors();
-        object.setVisible(true);
-    }//GEN-LAST:event_jLabel7MouseClicked
 
-    public void loadVisitorsInside() {
-    DefaultTableModel model = (DefaultTableModel) visitorsInsideTable.getModel();
-    model.setRowCount(0); // Clear previous data
-
-    String query = "SELECT v.visitor_id, v.full_name, v.sex, v.contact_no, v.address, l.time_in " +
-                   "FROM visitors v " +
-                   "JOIN visit_logs l ON v.visitor_id = l.visitor_id " +
-                   "WHERE l.time_out IS NULL";
-
-    try (Connection conn = new dorm.system.of.kyle.DBConnection().getConnection();
-         PreparedStatement stmt = conn.prepareStatement(query);
-         ResultSet rs = stmt.executeQuery()) {
-
-        while (rs.next()) {
-            Object[] row = {
-                rs.getInt("visitor_id"),
-                rs.getString("full_name"),
-                rs.getString("sex"),
-                rs.getString("contact_no"),
-                rs.getString("address"),
-                rs.getTimestamp("time_in")
-            };
-            model.addRow(row);
-        }
-        visitorsInsideTable.revalidate();
-        visitorsInsideTable.repaint();
-    } catch (SQLException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Failed to load visitors inside: " + e.getMessage());
-    }
-}
     
     public void search(String str)
 {
       
         DefaultTableModel model;
-       model = (DefaultTableModel) visitorsInsideTable.getModel();
+       model = (DefaultTableModel) tblActiveVisitors.getModel();
        TableRowSorter<DefaultTableModel> trs =  new TableRowSorter<>(model);
-       visitorsInsideTable.setRowSorter(trs);
+       tblActiveVisitors.setRowSorter(trs);
        trs.setRowFilter(RowFilter.regexFilter(str));
 }
+    
+    
+    
+    
+    public void loadVisitorsInsideNow() {
+    DefaultTableModel model = (DefaultTableModel) tblActiveVisitors.getModel();
+    model.setRowCount(0);
+
+    String sql =
+        "SELECT " +
+        "  vl.visit_id, " +
+        "  v.full_name AS visitor_name, " +
+        "  r.full_name AS host_resident, " +
+        "  r.room_no, " +
+        "  vl.time_in, " +
+        "  vl.time_out, " +
+        "  v.sex, " +
+        "  vl.allowed_minutes, " +
+        "  TIMESTAMPDIFF(MINUTE, vl.time_in, NOW()) AS duration_minutes, " +
+        "  CASE " +
+        "    WHEN TIMESTAMPDIFF(MINUTE, vl.time_in, NOW()) > vl.allowed_minutes THEN 'OVERSTAY' " +
+        "    ELSE vl.status " +
+        "  END AS display_status, " +
+        "  v.contact_no " +
+        "FROM visit_logs vl " +
+        "JOIN visitors v ON v.visitor_id = vl.visitor_id " +
+        "JOIN residents r ON r.resident_id = vl.host_resident_id " +
+        "WHERE vl.status = 'ACTIVE' " +
+        "ORDER BY vl.time_in DESC";
+
+    try (Connection conn = new dorm.system.of.kyle.DBConnection().getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            Object[] row = {
+                rs.getLong("visit_id"),
+                rs.getString("visitor_name"),
+                rs.getString("host_resident"),
+                rs.getString("room_no"),
+                rs.getTimestamp("time_in"),
+                rs.getTimestamp("time_out"),      // will be NULL for active
+                rs.getString("sex"),
+                rs.getInt("allowed_minutes"),
+                rs.getInt("duration_minutes"),
+                rs.getString("display_status"),
+                rs.getString("contact_no")
+            };
+            model.addRow(row);
+        }
+
+        tblActiveVisitors.revalidate();
+        tblActiveVisitors.repaint();
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error loading Visitors Inside Now: " + e.getMessage());
+    }
+}
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -417,7 +430,6 @@ public class Operator_Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -427,6 +439,6 @@ public class Operator_Dashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField search_bar;
-    private javax.swing.JTable visitorsInsideTable;
+    private javax.swing.JTable tblActiveVisitors;
     // End of variables declaration//GEN-END:variables
 }

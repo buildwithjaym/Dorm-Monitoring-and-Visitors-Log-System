@@ -49,7 +49,6 @@ public class Check_OUT extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel3 = new javax.swing.JPanel();
@@ -141,17 +140,6 @@ public class Check_OUT extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 130, -1));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/9.png"))); // NOI18N
-        jLabel7.setText("Active Visitors");
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
-            }
-        });
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -442,12 +430,6 @@ public class Check_OUT extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_tblActiveVisitorsMouseClicked
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        this.setVisible(false);
-        Active_Visitors object = new Active_Visitors();
-        object.setVisible(true);
-    }//GEN-LAST:event_jLabel7MouseClicked
-
     private void btnCheckoutVisitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckoutVisitorActionPerformed
         try {
        
@@ -530,7 +512,14 @@ public class Check_OUT extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Checkout failed: record not updated (maybe already checked out).");
             return;
         }
+        try (Connection conn = new dorm.system.of.kyle.DBConnection().getConnection();
+     PreparedStatement psInsert = conn.prepareStatement(
+         "INSERT INTO operator_actions (operator_id, action_type, visit_id, action_time) VALUES (?, 'CHECK_OUT', ?, NOW())")) {
 
+    psInsert.setInt(1, checkedOutBy);
+    psInsert.setLong(2, selectedVisitId);
+    psInsert.executeUpdate();
+}
         JOptionPane.showMessageDialog(this,
             "Checkout successful!\nStatus: " + newStatus + "\nOverstay: " + overstayMinutes + " minute(s)");
 
@@ -688,7 +677,6 @@ public void search(String str)
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
