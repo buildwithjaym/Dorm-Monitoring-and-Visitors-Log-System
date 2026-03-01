@@ -5,19 +5,32 @@
  */
 package Operator;
 
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.sql.Timestamp;
 
 /**
  *
  * @author admin
  */
 public class Check_OUT extends javax.swing.JFrame {
-
+    private Long selectedVisitId = null;
     /**
      * Creates new form Check_OUT
      */
     public Check_OUT() {
         initComponents();
+        startClock();
+        loadActiveVisitors();
     }
 
     /**
@@ -39,6 +52,42 @@ public class Check_OUT extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        datetime = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        search = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblActiveVisitors = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        btnCheckoutVisitor = new javax.swing.JButton();
+        lblVisitorNameValue = new javax.swing.JLabel();
+        lblVisitorTypeValue = new javax.swing.JLabel();
+        lblVisitorContactValue = new javax.swing.JLabel();
+        lblHostResidentValue = new javax.swing.JLabel();
+        lblTimeInValue = new javax.swing.JLabel();
+        lblAllowedMinutesValue = new javax.swing.JLabel();
+        lblVisitStatusValue = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtaRemarks = new javax.swing.JTextArea();
+        jLabel23 = new javax.swing.JLabel();
+        lblDuration = new javax.swing.JLabel();
+        btnClearForm = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -118,7 +167,195 @@ public class Check_OUT extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 530));
 
-        setSize(new java.awt.Dimension(1025, 567));
+        jPanel3.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel28.setText("Search:");
+        jPanel3.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 60, 40));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 0));
+        jLabel10.setText("CHECK-OUT");
+        jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, -1, -1));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Visitor's");
+        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        datetime.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        datetime.setForeground(new java.awt.Color(255, 255, 255));
+        datetime.setText(" Saturday, February 28, 2026  |  6: 24:45 pm");
+        jPanel3.add(datetime, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 20, 260, 20));
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 0));
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/12.png"))); // NOI18N
+        jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, -1));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("Active Visitors");
+        jPanel3.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 80, -1, -1));
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 0));
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/13.png"))); // NOI18N
+        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, -1, -1));
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setText("Visitors Checkout Details");
+        jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 190, -1));
+
+        jPanel4.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        search.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchKeyReleased(evt);
+            }
+        });
+        jPanel4.add(search, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 260, -1));
+
+        tblActiveVisitors.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Visitor Name", "Host Resident", "room_no", "Time In", "Allowed Time", "Duration", "status"
+            }
+        ));
+        tblActiveVisitors.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblActiveVisitorsMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblActiveVisitors);
+
+        jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 640, 90));
+
+        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 660, 190));
+
+        jPanel5.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("Visitor Name:");
+        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setText("Host Resident");
+        jPanel5.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setText("Contact #:");
+        jPanel5.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel18.setText("Allowed Minutes:");
+        jPanel5.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, -1));
+
+        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel19.setText("Time In:");
+        jPanel5.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel20.setText("Status:");
+        jPanel5.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
+
+        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel21.setText("Type:");
+        jPanel5.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
+
+        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel22.setText("Remarks:");
+        jPanel5.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, -1, -1));
+
+        btnCheckoutVisitor.setBackground(new java.awt.Color(255, 255, 0));
+        btnCheckoutVisitor.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnCheckoutVisitor.setText("Checkout Visitor Now");
+        btnCheckoutVisitor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCheckoutVisitorActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnCheckoutVisitor, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 160, 240, 40));
+
+        lblVisitorNameValue.setForeground(new java.awt.Color(255, 255, 255));
+        lblVisitorNameValue.setText("Visitor Name");
+        jPanel5.add(lblVisitorNameValue, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, -1, -1));
+
+        lblVisitorTypeValue.setForeground(new java.awt.Color(255, 255, 255));
+        lblVisitorTypeValue.setText("Type");
+        jPanel5.add(lblVisitorTypeValue, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, -1, -1));
+
+        lblVisitorContactValue.setForeground(new java.awt.Color(255, 255, 255));
+        lblVisitorContactValue.setText("Contact");
+        jPanel5.add(lblVisitorContactValue, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, -1, -1));
+
+        lblHostResidentValue.setForeground(new java.awt.Color(255, 255, 255));
+        lblHostResidentValue.setText("HostResident");
+        jPanel5.add(lblHostResidentValue, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, -1, -1));
+
+        lblTimeInValue.setForeground(new java.awt.Color(255, 255, 255));
+        lblTimeInValue.setText("Time");
+        jPanel5.add(lblTimeInValue, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, -1, -1));
+
+        lblAllowedMinutesValue.setForeground(new java.awt.Color(255, 255, 255));
+        lblAllowedMinutesValue.setText("AllowedMinutes");
+        jPanel5.add(lblAllowedMinutesValue, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, -1, -1));
+
+        lblVisitStatusValue.setForeground(new java.awt.Color(255, 255, 255));
+        lblVisitStatusValue.setText("sattus");
+        jPanel5.add(lblVisitStatusValue, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, -1, -1));
+
+        txtaRemarks.setColumns(20);
+        txtaRemarks.setRows(5);
+        jScrollPane2.setViewportView(txtaRemarks);
+
+        jPanel5.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 60, 240, -1));
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel23.setText("Duration:");
+        jPanel5.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
+
+        lblDuration.setForeground(new java.awt.Color(255, 255, 255));
+        lblDuration.setText("duration");
+        jPanel5.add(lblDuration, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, -1, -1));
+
+        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 660, 210));
+
+        btnClearForm.setBackground(new java.awt.Color(204, 0, 0));
+        btnClearForm.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnClearForm.setText("Clear Form");
+        btnClearForm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearFormActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnClearForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 500, 120, -1));
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 0));
+        jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, -1));
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 700, 530));
+
+        setSize(new java.awt.Dimension(933, 567));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -140,12 +377,6 @@ public class Check_OUT extends javax.swing.JFrame {
         object.setVisible(true);
     }//GEN-LAST:event_jLabel6MouseClicked
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        this.setVisible(false);
-        Active_Visitors object = new Active_Visitors();
-        object.setVisible(true);
-    }//GEN-LAST:event_jLabel7MouseClicked
-
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         int confirm = JOptionPane.showConfirmDialog(this,"Are You Really want to Logout","Confirm",JOptionPane.YES_NO_OPTION);
         if(confirm==0){
@@ -155,6 +386,248 @@ public class Check_OUT extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jLabel8MouseClicked
 
+    private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
+      String text = search.getText();
+      search(text);
+    }//GEN-LAST:event_searchKeyReleased
+
+    private void tblActiveVisitorsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblActiveVisitorsMouseClicked
+        int row = tblActiveVisitors.getSelectedRow();
+    if (row < 0) return;
+
+    // If table has sorting/filtering, convert view row -> model row
+    int modelRow = tblActiveVisitors.convertRowIndexToModel(row);
+    DefaultTableModel model = (DefaultTableModel) tblActiveVisitors.getModel();
+
+    selectedVisitId = Long.parseLong(model.getValueAt(modelRow, 0).toString()); // visit_id
+
+    // Fill basic info from table row
+    String visitorName = model.getValueAt(modelRow, 1).toString();
+    String hostResident = model.getValueAt(modelRow, 2).toString();
+    String roomNo = model.getValueAt(modelRow, 3).toString();
+    String timeIn = model.getValueAt(modelRow, 4).toString();
+    String allowed = model.getValueAt(modelRow, 5).toString();
+    String duration = model.getValueAt(modelRow, 6).toString();
+
+    lblVisitorNameValue.setText(visitorName);
+    lblHostResidentValue.setText(hostResident + " | Room " + roomNo);
+    lblTimeInValue.setText(timeIn);
+    lblAllowedMinutesValue.setText(allowed);
+    lblDuration.setText(duration + " min");
+
+    // Now fetch extra details for labels (visitor_type, contact_no, status)
+    String sql =
+        "SELECT v.visitor_type, v.contact_no, vl.status " +
+        "FROM visit_logs vl " +
+        "JOIN visitors v ON v.visitor_id = vl.visitor_id " +
+        "WHERE vl.visit_id = ?";
+
+    try (Connection conn = new dorm.system.of.kyle.DBConnection().getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setLong(1, selectedVisitId);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                lblVisitorTypeValue.setText(rs.getString("visitor_type"));
+                String contact = rs.getString("contact_no");
+                lblVisitorContactValue.setText(contact == null ? "" : contact);
+                lblVisitStatusValue.setText(rs.getString("status"));
+            }
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error loading visitor details: " + e.getMessage());
+    }
+    }//GEN-LAST:event_tblActiveVisitorsMouseClicked
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        this.setVisible(false);
+        Active_Visitors object = new Active_Visitors();
+        object.setVisible(true);
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void btnCheckoutVisitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckoutVisitorActionPerformed
+        try {
+       
+        if (selectedVisitId == null) {
+            JOptionPane.showMessageDialog(this, "Please select an ACTIVE visitor from the table.");
+            return;
+        }
+
+        int checkedOutBy = dorm.system.of.kyle.Session.userId;
+        if (checkedOutBy <= 0) {
+            JOptionPane.showMessageDialog(this, "Session error: operator not logged in.");
+            return;
+        }
+
+        String remarks = txtaRemarks.getText().trim();
+
+     
+        Timestamp timeIn = null;
+        int allowedMinutes = 0;
+
+        String fetchSql =
+            "SELECT time_in, allowed_minutes " +
+            "FROM visit_logs " +
+            "WHERE visit_id = ? AND status = 'ACTIVE'";
+
+        try (Connection conn = new dorm.system.of.kyle.DBConnection().getConnection();
+             PreparedStatement ps = conn.prepareStatement(fetchSql)) {
+
+            ps.setLong(1, selectedVisitId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    JOptionPane.showMessageDialog(this, "This visit is not ACTIVE anymore (already checked out).");
+                    return;
+                }
+
+                timeIn = rs.getTimestamp("time_in"); 
+                allowedMinutes = rs.getInt("allowed_minutes");
+            }
+        }
+
+        if (timeIn == null) {
+            JOptionPane.showMessageDialog(this, "Invalid visit record: time_in is NULL.");
+            return;
+        }
+
+     
+        long durationMinutes = (System.currentTimeMillis() - timeIn.getTime()) / (1000 * 60);
+
+        int overstayMinutes = (int) Math.max(0, durationMinutes - allowedMinutes);
+        String newStatus = (overstayMinutes > 0) ? "OVERSTAY" : "COMPLETED";
+
+        
+        String updateSql =
+            "UPDATE visit_logs " +
+            "SET time_out = NOW(), status = ?, overstay_minutes = ?, checked_out_by = ?, remarks = ? " +
+            "WHERE visit_id = ? AND status = 'ACTIVE'";
+
+        int updated;
+
+        try (Connection conn = new dorm.system.of.kyle.DBConnection().getConnection();
+             PreparedStatement ps = conn.prepareStatement(updateSql)) {
+
+            ps.setString(1, newStatus);
+            ps.setInt(2, overstayMinutes);
+            ps.setInt(3, checkedOutBy);
+
+            if (remarks.isEmpty()) {
+                ps.setNull(4, java.sql.Types.VARCHAR);
+            } else {
+                ps.setString(4, remarks);
+            }
+
+            ps.setLong(5, selectedVisitId);
+
+            updated = ps.executeUpdate();
+        }
+
+        if (updated == 0) {
+            JOptionPane.showMessageDialog(this, "Checkout failed: record not updated (maybe already checked out).");
+            return;
+        }
+
+        JOptionPane.showMessageDialog(this,
+            "Checkout successful!\nStatus: " + newStatus + "\nOverstay: " + overstayMinutes + " minute(s)");
+
+        
+        selectedVisitId = null;
+        tblActiveVisitors.clearSelection();
+        txtaRemarks.setText("");
+
+        lblVisitorNameValue.setText("");
+        lblVisitorTypeValue.setText("");
+        lblVisitorContactValue.setText("");
+        lblHostResidentValue.setText("");
+        lblTimeInValue.setText("");
+        lblAllowedMinutesValue.setText("");
+        lblVisitStatusValue.setText("");
+        lblDuration.setText("");
+
+        
+        loadActiveVisitors();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error during checkout: " + e.getMessage());
+    }
+    }//GEN-LAST:event_btnCheckoutVisitorActionPerformed
+
+    private void btnClearFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearFormActionPerformed
+        txtaRemarks.setText("");
+
+        lblVisitorNameValue.setText("");
+        lblVisitorTypeValue.setText("");
+        lblVisitorContactValue.setText("");
+        lblHostResidentValue.setText("");
+        lblTimeInValue.setText("");
+        lblAllowedMinutesValue.setText("");
+        lblVisitStatusValue.setText("");
+        lblDuration.setText("");
+    }//GEN-LAST:event_btnClearFormActionPerformed
+private void startClock() {
+    new javax.swing.Timer(1000, e -> {
+        Date now = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM dd, yyyy | h:mm:ss a");
+        datetime.setText(sdf.format(now));
+    }).start();
+}
+
+public void search(String str)
+{
+      
+        DefaultTableModel model;
+       model = (DefaultTableModel) tblActiveVisitors.getModel();
+       TableRowSorter<DefaultTableModel> trs =  new TableRowSorter<>(model);
+       tblActiveVisitors.setRowSorter(trs);
+       trs.setRowFilter(RowFilter.regexFilter(str));
+}
+    private void loadActiveVisitors() {
+    DefaultTableModel model = (DefaultTableModel) tblActiveVisitors.getModel();
+    model.setRowCount(0);
+
+    String sql =
+        "SELECT vl.visit_id, v.full_name AS visitor_name, r.full_name AS host_resident, r.room_no, " +
+        "vl.time_in, vl.allowed_minutes, TIMESTAMPDIFF(MINUTE, vl.time_in, NOW()) AS duration_minutes, " +
+        "v.visitor_type, v.contact_no, vl.status " +
+        "FROM visit_logs vl " +
+        "JOIN visitors v ON v.visitor_id = vl.visitor_id " +
+        "JOIN residents r ON r.resident_id = vl.host_resident_id " +
+        "WHERE vl.status = 'ACTIVE' " +
+        "ORDER BY vl.time_in DESC";
+
+    try (Connection conn = new dorm.system.of.kyle.DBConnection().getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            Object[] row = new Object[] {
+                rs.getLong("visit_id"),
+                rs.getString("visitor_name"),
+                rs.getString("host_resident"),
+                rs.getString("room_no"),
+                rs.getTimestamp("time_in"),
+                rs.getInt("allowed_minutes"),
+                rs.getInt("duration_minutes"),
+                rs.getString("status"),
+            };
+            model.addRow(row);
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error loading active visitors: " + e.getMessage());
+    }
+}
+        
+        
+        
+        
+        
     /**
      * @param args the command line arguments
      */
@@ -191,15 +664,51 @@ public class Check_OUT extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCheckoutVisitor;
+    private javax.swing.JButton btnClearForm;
+    private javax.swing.JLabel datetime;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblAllowedMinutesValue;
+    private javax.swing.JLabel lblDuration;
+    private javax.swing.JLabel lblHostResidentValue;
+    private javax.swing.JLabel lblTimeInValue;
+    private javax.swing.JLabel lblVisitStatusValue;
+    private javax.swing.JLabel lblVisitorContactValue;
+    private javax.swing.JLabel lblVisitorNameValue;
+    private javax.swing.JLabel lblVisitorTypeValue;
+    private javax.swing.JTextField search;
+    private javax.swing.JTable tblActiveVisitors;
+    private javax.swing.JTextArea txtaRemarks;
     // End of variables declaration//GEN-END:variables
 }

@@ -96,6 +96,7 @@ public class Check_IN extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         visitors_table = new javax.swing.JTable();
         jLabel26 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -374,6 +375,9 @@ public class Check_IN extends javax.swing.JFrame {
 
         jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 260, 440, 170));
 
+        jPanel7.setBackground(new java.awt.Color(255, 255, 0));
+        jPanel2.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 930, 10));
+
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 930, 530));
 
         setSize(new java.awt.Dimension(1162, 565));
@@ -397,12 +401,6 @@ public class Check_IN extends javax.swing.JFrame {
         Check_OUT object = new Check_OUT();
         object.setVisible(true);
     }//GEN-LAST:event_jLabel6MouseClicked
-
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        this.setVisible(false);
-        Active_Visitors object = new Active_Visitors();
-        object.setVisible(true);
-    }//GEN-LAST:event_jLabel7MouseClicked
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         int confirm = JOptionPane.showConfirmDialog(this,"Are You Really want to Logout","Confirm",JOptionPane.YES_NO_OPTION);
@@ -543,6 +541,12 @@ public class Check_IN extends javax.swing.JFrame {
     pose.setText("");
     rs.setSelectedIndex(0);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        this.setVisible(false);
+        Active_Visitors object = new Active_Visitors();
+        object.setVisible(true);
+    }//GEN-LAST:event_jLabel7MouseClicked
     
 
     public void checkIn(int visitorId, int residentId, String relationship, String purpose, int checkedInBy, int allowedMinutes) {
@@ -730,6 +734,7 @@ public void visit_search(String str)
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel limit;

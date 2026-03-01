@@ -155,19 +155,19 @@ public class Operator_Dashboard extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Welcome,");
-        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 0));
         jLabel10.setText("Operator!");
-        jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, -1, -1));
+        jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, -1, -1, 50));
 
         datetime.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         datetime.setForeground(new java.awt.Color(255, 255, 255));
         datetime.setText(" Saturday, February 28, 2026  |  6: 24:45 pm");
-        jPanel3.add(datetime, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 370, -1));
+        jPanel3.add(datetime, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 370, 30));
 
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 790, 80));
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 21, 790, 70));
 
         jLabel11.setForeground(new java.awt.Color(204, 204, 204));
         jLabel11.setText("Register a New Visitor");
@@ -297,12 +297,6 @@ public class Operator_Dashboard extends javax.swing.JFrame {
        object.setVisible(true);
     }//GEN-LAST:event_jLabel6MouseClicked
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-       this.setVisible(false);
-       Active_Visitors object = new Active_Visitors();
-       object.setVisible(true);
-    }//GEN-LAST:event_jLabel7MouseClicked
-
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
        this.setVisible(false);
        Check_IN object = new Check_IN();
@@ -324,6 +318,12 @@ public class Operator_Dashboard extends javax.swing.JFrame {
         Active_Visitors object = new Active_Visitors();
         object.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        this.setVisible(false);
+        Active_Visitors object = new Active_Visitors();
+        object.setVisible(true);
+    }//GEN-LAST:event_jLabel7MouseClicked
 
     public void loadVisitorsInside() {
     DefaultTableModel model = (DefaultTableModel) visitorsInsideTable.getModel();
