@@ -5,6 +5,20 @@
  */
 package Administrator;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.sql.ResultSet;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.*;
 /**
  *
  * @author admin
@@ -27,21 +41,205 @@ public class Visitors extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        dashboard = new javax.swing.JLabel();
+        Residents = new javax.swing.JLabel();
+        Rooms = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        Logs = new javax.swing.JLabel();
+        Visitors = new javax.swing.JLabel();
+        payments = new javax.swing.JLabel();
+        reports = new javax.swing.JLabel();
+        settings = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        jPanel2.setBackground(new java.awt.Color(0, 0, 102));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        pack();
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/log.png"))); // NOI18N
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Dorm Monitoring");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 20, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("and Visitor Log System");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, -1, -1));
+
+        dashboard.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        dashboard.setForeground(new java.awt.Color(255, 255, 255));
+        dashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Dashboard white.png"))); // NOI18N
+        dashboard.setText("Dashboard");
+        dashboard.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        dashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dashboardMouseClicked(evt);
+            }
+        });
+        jPanel2.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
+
+        Residents.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        Residents.setForeground(new java.awt.Color(255, 255, 255));
+        Residents.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Admin_Images/18.png"))); // NOI18N
+        Residents.setText("Residents");
+        Residents.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ResidentsMouseClicked(evt);
+            }
+        });
+        jPanel2.add(Residents, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 130, -1));
+
+        Rooms.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        Rooms.setForeground(new java.awt.Color(255, 255, 255));
+        Rooms.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Admin_Images/42 admin.png"))); // NOI18N
+        Rooms.setText("Rooms");
+        Rooms.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                RoomsMouseClicked(evt);
+            }
+        });
+        jPanel2.add(Rooms, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 130, -1));
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Logout.png"))); // NOI18N
+        jLabel8.setText("Logout");
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 560, 110, -1));
+
+        jSeparator1.setBackground(new java.awt.Color(255, 255, 0));
+        jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 530, 210, 20));
+
+        Logs.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        Logs.setForeground(new java.awt.Color(255, 255, 255));
+        Logs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Admin_Images/42 admin (5).png"))); // NOI18N
+        Logs.setText("Logs");
+        Logs.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LogsMouseClicked(evt);
+            }
+        });
+        jPanel2.add(Logs, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 130, -1));
+
+        Visitors.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        Visitors.setForeground(new java.awt.Color(255, 255, 0));
+        Visitors.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Admin_Images/42 admin (4).png"))); // NOI18N
+        Visitors.setText("Visitors");
+        Visitors.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                VisitorsMouseClicked(evt);
+            }
+        });
+        jPanel2.add(Visitors, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 130, -1));
+
+        payments.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        payments.setForeground(new java.awt.Color(255, 255, 255));
+        payments.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Admin_Images/42 admin (7).png"))); // NOI18N
+        payments.setText("Payments");
+        payments.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                paymentsMouseClicked(evt);
+            }
+        });
+        jPanel2.add(payments, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 130, -1));
+
+        reports.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        reports.setForeground(new java.awt.Color(255, 255, 255));
+        reports.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Admin_Images/42 admin (9).png"))); // NOI18N
+        reports.setText("Reports");
+        reports.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                reportsMouseClicked(evt);
+            }
+        });
+        jPanel2.add(reports, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, 130, -1));
+
+        settings.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        settings.setForeground(new java.awt.Color(255, 255, 255));
+        settings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Admin_Images/42 admin (11).png"))); // NOI18N
+        settings.setText("Users and Settings");
+        settings.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                settingsMouseClicked(evt);
+            }
+        });
+        jPanel2.add(settings, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, 180, -1));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 610));
+
+        setSize(new java.awt.Dimension(1000, 643));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void dashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardMouseClicked
+        this.setVisible(false);
+        Admin_Dashboard object = new Admin_Dashboard();
+        object.setVisible(true);
+    }//GEN-LAST:event_dashboardMouseClicked
+
+    private void ResidentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ResidentsMouseClicked
+        this.setVisible(false);
+        Residents object = new Residents();
+        object.setVisible(true);
+    }//GEN-LAST:event_ResidentsMouseClicked
+
+    private void RoomsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RoomsMouseClicked
+        this.setVisible(false);
+        Rooms object = new Rooms();
+        object.setVisible(true);
+    }//GEN-LAST:event_RoomsMouseClicked
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        int confirm = JOptionPane.showConfirmDialog(this,"Are You Really want to Logout","Confirm",JOptionPane.YES_NO_OPTION);
+        if(confirm==0){
+            this.setVisible(false);
+            dorm.system.of.kyle.Login object = new dorm.system.of.kyle.Login();
+            object.setVisible(true);
+        }
+    }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void LogsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogsMouseClicked
+        this.setVisible(false);
+        Logs object = new Logs();
+        object.setVisible(true);
+    }//GEN-LAST:event_LogsMouseClicked
+
+    private void VisitorsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VisitorsMouseClicked
+        this.setVisible(false);
+        Visitors object = new Visitors();
+        object.setVisible(true);
+    }//GEN-LAST:event_VisitorsMouseClicked
+
+    private void paymentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentsMouseClicked
+        this.setVisible(false);
+        Payments object = new Payments();
+        object.setVisible(true);
+    }//GEN-LAST:event_paymentsMouseClicked
+
+    private void reportsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reportsMouseClicked
+        this.setVisible(false);
+        Reports object = new Reports();
+        object.setVisible(true);
+    }//GEN-LAST:event_reportsMouseClicked
+
+    private void settingsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsMouseClicked
+        this.setVisible(false);
+        Users_Settings object = new Users_Settings();
+        object.setVisible(true);
+    }//GEN-LAST:event_settingsMouseClicked
 
     /**
      * @param args the command line arguments
@@ -79,5 +277,19 @@ public class Visitors extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Logs;
+    private javax.swing.JLabel Residents;
+    private javax.swing.JLabel Rooms;
+    private javax.swing.JLabel Visitors;
+    private javax.swing.JLabel dashboard;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel payments;
+    private javax.swing.JLabel reports;
+    private javax.swing.JLabel settings;
     // End of variables declaration//GEN-END:variables
 }

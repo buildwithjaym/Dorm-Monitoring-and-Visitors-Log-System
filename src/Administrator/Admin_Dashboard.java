@@ -172,7 +172,7 @@ public class Admin_Dashboard extends javax.swing.JFrame {
 
         settings.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         settings.setForeground(new java.awt.Color(255, 255, 255));
-        settings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Admin_Images/42 admin (3).png"))); // NOI18N
+        settings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Admin_Images/42 admin (11).png"))); // NOI18N
         settings.setText("Users and Settings");
         settings.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
